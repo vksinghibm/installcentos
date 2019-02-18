@@ -1,4 +1,4 @@
-Install RedHat OKD 3.11 on your own server.  For a local only install, it is suggested that you use CDK or MiniShift instead of this repo.  This install method is targeted for a single node cluster that has a long life.
+Install RedHat OKD 3.11 on your own server.This install method is targeted for a single node cluster that has a long life.
 
 This repository is a set of scripts that will allow you easily install the latest version (3.11) of OKD in a single node fashion.  What that means is that all of the services required for OKD to function (master, node, etcd, etc.) will all be installed on a single host.  The script supports a custom hostname which you can provide using the interactive mode.
 
@@ -15,7 +15,7 @@ This repository is a set of scripts that will allow you easily install the lates
 2. Clone this repo
 
 ```
-git clone https://github.com/gshipley/installcentos.git
+git clone https://github.com/vksinghibm/installcentos.git
 ```
 
 3. Execute the installation script
@@ -24,56 +24,37 @@ git clone https://github.com/gshipley/installcentos.git
 cd installcentos
 ./install-openshift.sh
 ```
-
-## Automation
-1. Define mandatory variables for the installation process
-
+Finally you will this successful message
 ```
-# Domain name to access the cluster
-$ export DOMAIN=<public ip address>.nip.io
+******
+* Your console is https://console.169.62.247.131.nip.io:8443
+* Your username is root 
+* Your password is R75yzA2b 
+*
+* Login using:
+*
+$ oc login -u root -p R75yzA2b https://console.169.62.247.131.nip.io:8443/
+******
+Login successful.
 
-# User created after installation
-$ export USERNAME=<current user name>
+You have access to the following projects and can switch between them with 'oc project <projectname>':
 
-# Password for the user
-$ export PASSWORD=password
-```
+  * default
+    kube-public
+    kube-service-catalog
+    kube-system
+    management-infra
+    openshift
+    openshift-console
+    openshift-infra
+    openshift-logging
+    openshift-monitoring
+    openshift-node
+    openshift-sdn
+    openshift-template-service-broker
+    openshift-web-console
 
-2. Define optional variables for the installation process
-
-```
-# Instead of using loopback, setup DeviceMapper on this disk.
-# !! All data on the disk will be wiped out !!
-$ export DISK="/dev/sda"
-```
-
-3. Run the automagic installation script as root with the environment variable in place:
-
-```
-curl https://raw.githubusercontent.com/gshipley/installcentos/master/install-openshift.sh | INTERACTIVE=false /bin/bash
-```
-
-## Development
-
-For development it's possible to switch the script repo
-
-```
-# Change location of source repository
-$ export SCRIPT_REPO="https://raw.githubusercontent.com/gshipley/installcentos/master"
-$ curl $SCRIPT_REPO/install-openshift.sh | /bin/bash
+Using project "default".
 ```
 
-## Testing
 
-The script is tested using the tooling in the `validate` directory.
-
-To use the tooling, it's required to create file `validate/env.sh` with the DigitalOcean API key
-
-```
-export DIGITALOCEAN_TOKEN=""
-```
-
-and then run `start.sh` to start the provisioning. Once the ssh is connected to the server, the
-script will atatch to the `tmux` session running Ansible installer.
-
-To destroy the infrastructure, run the `stop.sh` script.
